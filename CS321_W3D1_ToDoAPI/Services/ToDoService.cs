@@ -1,43 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using CS321_W3D1_ToDoAPI_EF.Models;
+using CS321_W3D1_ToDoAPI_EF.Data;
+using System.Collections.Generic;
 using System.Linq;
-using CS321_W3D1_ToDoAPI_EF.Models;
 
 namespace CS321_W3D1_ToDoAPI_EF.Services
 {
     public class ToDoService : IToDoService
     {
-
         private readonly ToDoContext _todoContext;
 
-        public ToDoService(/* TODO: add a parameter so ToDoContext can be injected */)
+        public ToDoService(ToDoContext dbContext)
         {
-            // TODO: keep a reference to the ToDoContext in _todoContext
+            // keep a reference to the ToDoContext in _todoContext
+            _todoContext = dbContext;
         }
 
         public ToDo Add(ToDo todo)
         {
-            // NOTE: This method is already completed for your reference. 
+            // NOTE: This method is already completed for your reference.
             // Note how _todoContext is used.
 
             // store in the list of ToDos
             _todoContext.ToDos.Add(todo);
+            _todoContext.SaveChanges();
             // return the new ToDo with Id filled in
             return todo;
         }
 
         public ToDo Get(int id)
         {
-            // TODO: return the specified ToDo using Find()
+            // return the specified ToDo using Find()
+            return _todoContext.ToDos.Find(id);
+
+            
         }
 
         public IEnumerable<ToDo> GetAll()
         {
-            // TODO: return all ToDos using ToList()
+            // return all ToDos using ToList()
+           return _todoContext.ToDos.ToList();
         }
 
         public ToDo Update(ToDo updatedToDo)
         {
-            // get the ToDo object in the current list with this id 
+            // get the ToDo object in the current list with this id
             var currentToDo = _todoContext.ToDos.Find(updatedToDo.Id);
 
             // return null if todo to update isn't found
@@ -61,8 +67,9 @@ namespace CS321_W3D1_ToDoAPI_EF.Services
 
         public void Remove(ToDo todo)
         {
-            // TODO: remove the todo
+            // remove the todo
+            _todoContext.ToDos.Remove(todo);
+            _todoContext.SaveChanges();
         }
-
     }
 }

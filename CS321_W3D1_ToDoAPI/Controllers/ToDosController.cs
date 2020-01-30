@@ -32,7 +32,7 @@ namespace CS321_W3D1_ToDoAPI_EF.Controllers
         {
             // look up todo by id
             var todo = _todoService.Get(id);
-            // if not found, return 404 NotFound 
+            // if not found, return 404 NotFound
             if (todo == null) return NotFound();
             // otherwise return 200 OK and the ToDo
             return Ok(todo);
